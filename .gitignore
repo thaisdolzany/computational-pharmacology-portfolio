@@ -1,0 +1,33 @@
+# R
+.Rhistory
+.Rproj.user/
+.Rdata
+.Ruserdata
+*.Rproj
+
+# renv
+renv/library/
+renv/local/
+renv/cellar/
+renv/python/
+renv/staging/
+
+# Data (raw/processed data is large and not versioned; scripts regenerate it)
+**/data/raw/*
+**/data/processed/*
+!**/data/raw/.gitkeep
+!**/data/processed/.gitkeep
+
+# Jupyter / Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+venv/
+.venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
