@@ -7,8 +7,7 @@
 # Nota: os dados são TPM/full-length (Smart-seq2), não UMI counts de 10x.
 # NormalizeData(method = "LogNormalize") assume contagens tipo-UMI; como
 # alternativa mais apropriada a full-length, usamos log1p diretamente sobre
-# a matriz (equivalente a log2(TPM/10 + 1) é comum na literatura do dataset
-# original — aqui usamos log1p natural e documentamos a escolha).
+# a matriz — documentado abaixo.
 # =============================================================================
 
 library(Seurat)
@@ -17,18 +16,21 @@ library(readr)
 
 set.seed(42)
 
-proc_dir <- here::here("01-melanoma-single-cell-biomarkers", "data", "processed")
+proc_dir <- here::here("02-melanoma-drug-resistance", "data", "processed")
 
 counts_filtered <- readRDS(file.path(proc_dir, "counts_filtered.rds"))
 cell_annot <- read_csv(file.path(proc_dir, "cell_annotations.csv"))
 
 # -----------------------------------------------------------------------------
 # Alinha metadados às células filtradas
+#
+# Nota: o CSV de anotações do GEO usa a coluna "cells" (não "cell_id") para
+# o identificador de célula.
 # -----------------------------------------------------------------------------
 meta <- cell_annot %>%
-  filter(cell_id %in% colnames(counts_filtered)) %>%
+  filter(cells %in% colnames(counts_filtered)) %>%
   as.data.frame()
-rownames(meta) <- meta$cell_id
+rownames(meta) <- meta$cells
 meta <- meta[colnames(counts_filtered), , drop = FALSE]
 
 # -----------------------------------------------------------------------------
@@ -37,7 +39,7 @@ meta <- meta[colnames(counts_filtered), , drop = FALSE]
 seu <- CreateSeuratObject(
   counts = counts_filtered,
   meta.data = meta,
-  project = "GSE115978_melanoma",
+  project = "GSE115978_melanoma_resistance",
   min.cells = 3,
   min.features = 200
 )

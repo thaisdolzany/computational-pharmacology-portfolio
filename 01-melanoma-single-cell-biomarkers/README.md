@@ -18,33 +18,46 @@ desenvolvimento clínico e de medicina de precisão em oncologia.
 
 ## 3. Dataset
 
-- **Accession:** [GSE115978](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE115978)
+- **Accession:** [GSE120575](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE120575)
 - **Referência:** Sade-Feldman et al., *Cell* 2018 — "Defining T Cell States
   Associated with Response to Checkpoint Immunotherapy in Melanoma"
-- **Plataforma:** Smart-seq2 (full-length scRNA-seq, não é 10x/UMI-based)
-- **Tamanho:** ~16.291 células de 48 biópsias tumorais (32 pacientes,
-  amostras pré- e pós-tratamento)
-- **Arquivos-chave na GEO:**
-  - `GSE115978_counts.csv.gz` — matriz de contagens brutas
-  - `GSE115978_tpm.csv.gz` — matriz normalizada (TPM)
-  - `GSE115978_cell.annotations.csv.gz` — anotação de tipo celular e
-    resposta clínica (R/NR) por célula, fornecida pelos autores
+  (PMID 30388456, DOI [10.1016/j.cell.2018.10.038](https://doi.org/10.1016/j.cell.2018.10.038))
+- **Plataforma:** Smart-seq2 (full-length scRNA-seq), células CD45+ triadas
+  por FACS
+- **Tamanho:** 16.291 células de 48 biópsias tumorais (32 pacientes,
+  amostras pré- e pós-tratamento com anti-CTLA4/anti-PD1/combinação)
+- **Arquivos-chave na GEO (supplementary da série):**
+  - `GSE120575_Sade_Feldman_melanoma_single_cells_TPM_GEO.txt.gz` — matriz
+    de expressão (genes x células), valores em log2[(TPM/10)+1]; **as 2
+    primeiras linhas são cabeçalho** (linha 1 = ID da célula, linha 2 =
+    ID do paciente/timepoint, ex. `Pre_P1`) — não são genes
+  - `GSE120575_patient_ID_single_cells.txt.gz` — arquivo no formato de
+    template de submissão GEO (não é um CSV simples); contém, a partir da
+    linha 20, uma linha por célula com colunas: `Sample name`, `title`
+    (= ID da célula, bate com o header da matriz TPM), `source name`,
+    `organism`, `characteristics: patient ID (Pre=baseline; Post=on
+    treatment)`, `characteristics: response` (**Responder**/**Non-responder**),
+    `characteristics: therapy` (anti-CTLA4/anti-PD1/anti-CTLA4+PD1)
+- **Nota de reprodutibilidade:** o rótulo de resposta clínica (R/NR) está
+  neste arquivo por célula — **não** confundir com o GSE115978 usado no
+  Projeto 02, que não tem esse rótulo (ver README do Projeto 02 para o
+  histórico dessa confusão de accessions).
 
 ## 4. Methods
 
-1. **Download** dos arquivos supplementary da GEO (`01_download_gse115978.R`)
-2. **QC** — filtragem por número de genes detectados/célula, contagem total,
-   % mitocondrial; remoção de outliers (`02_qc.R`)
-3. **Pré-processamento Seurat** — criação do objeto, normalização
-   (log-transform, já que os dados de origem são TPM/full-length e não
-   UMI counts), seleção de genes variáveis, scaling, PCA
-   (`03_seurat_preprocessing.R`)
-4. **Clustering e anotação** — clustering (Louvain/Leiden via Seurat),
-   UMAP, validação cruzada com as anotações de tipo celular publicadas
-   (`04_clustering_annotation.R`)
-5. **Análise de biomarcadores** — expressão diferencial R vs. NR por
-   população celular (Wilcoxon/MAST), volcano plots, candidatos a
-   assinatura preditiva (`05_biomarker_analysis.R`)
+1. **Download** dos arquivos supplementary da GEO (`01_download_gse120575.R`)
+2. **Parsing de metadados** — extração do bloco por célula do arquivo de
+   template GEO (`patient_ID_single_cells.txt`), obtendo `cell_id`,
+   `patient_id`, `response`, `therapy` (`02_parse_metadata.R`)
+3. **QC** — filtragem por número de genes detectados/célula (TPM > 0) e
+   % mitocondrial; a matriz já vem log-transformada, então os thresholds
+   são adaptados a essa escala (`03_qc.R`)
+4. **Pré-processamento Seurat** — criação do objeto a partir da matriz já
+   log2-normalizada (sem reaplicar `NormalizeData` log), seleção de genes
+   variáveis, scaling, PCA (`04_seurat_preprocessing.R`)
+5. **Clustering e biomarcadores** — clustering (Louvain via Seurat), UMAP,
+   e expressão diferencial Responder vs. Non-responder global e por
+   cluster (`05_clustering_and_biomarkers.R`)
 
 ## 5. Results
 
@@ -52,41 +65,46 @@ desenvolvimento clínico e de medicina de precisão em oncologia.
 
 ## 6. Interpretation
 
-*(a preencher — interpretação biológica dos achados: quais populações e
-genes se destacam, plausibilidade mecanística)*
+*(a preencher)*
 
 ## 7. Decision
 
-*(a preencher — que decisão de desenvolvimento/pesquisa esses resultados
-sustentariam, ex.: priorizar alvo X para validação funcional)*
+*(a preencher)*
 
 ## 8. Limitations
 
-- Estudo observacional, n pequeno de pacientes (32); confundido por
-  variáveis clínicas não totalmente controladas (linha de tratamento,
-  local da biópsia)
+- Estudo observacional, n pequeno de pacientes (32 pacientes / 48
+  biópsias); confundido por variáveis clínicas (linha de terapia:
+  anti-CTLA4 vs anti-PD1 vs combinação — não estratificado na análise
+  inicial)
 - Smart-seq2 captura menos células por amostra que plataformas 10x,
   limitando poder estatístico por subtipo raro
-- Anotações de resposta clínica (RECIST) podem não refletir perfeitamente
-  a biologia tumoral no momento da biópsia
+- Células são CD45+ apenas (compartimento imune) — não inclui células
+  malignas/estromais (diferente do GSE115978 usado no Projeto 02)
+- Matriz de expressão já vem log-transformada e sem contagens brutas
+  disponíveis publicamente — métricas de QC (nº de genes, sem nº de
+  reads) são mais limitadas que com dados de contagem bruta
 - Achados são hipótese-geradores; não validados experimentalmente aqui
 
 ## 9. Next steps
 
-- Validar biomarcadores candidatos em coorte independente (ex.: dados de
-  outro estudo de scRNA-seq em melanoma sob imunoterapia)
-- Explorar deconvolução em dados bulk RNA-seq de coortes maiores usando a
-  assinatura derivada
-- Ligação com o Projeto 02 (drug resistance) para investigar sobreposição
-  entre programas de resistência e não-resposta a imunoterapia
+- Cruzar biomarcadores candidatos com o programa de resistência de
+  células malignas identificado no Projeto 02 (overlap entre não-resposta
+  e exclusão de células T)
+- Validar candidatos usando o marcador TCF7 destacado no paper original
+  como preditor em coorte independente
+- Estratificar a análise por linha de terapia (anti-CTLA4 vs anti-PD1 vs
+  combinação), já que a resposta a cada uma pode ter biologia distinta
 
 ## 10. Reproducibility
 
 - Ambiente: R (RStudio local) — ver [requirements.txt](requirements.txt)
   para versões de pacotes
 - Seed fixa (`set.seed(42)`) em todos os scripts com componente estocástico
-- Ordem de execução: `analysis/01_download_gse115978.R` →
-  `02_qc.R` → `03_seurat_preprocessing.R` → `04_clustering_annotation.R` →
-  `05_biomarker_analysis.R`
+- Ordem de execução: `analysis/01_download_gse120575.R` →
+  `02_parse_metadata.R` → `03_qc.R` → `04_seurat_preprocessing.R` →
+  `05_clustering_and_biomarkers.R`
 - Dados brutos/processados não versionados no git (ver `.gitignore`);
   regenerados a partir do script 01
+- **Aviso de tamanho:** a matriz TPM descompactada tem ~4,5 GB — garanta
+  espaço em disco livre antes de rodar o script 01

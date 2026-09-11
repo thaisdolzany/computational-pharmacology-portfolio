@@ -1,18 +1,19 @@
 # =============================================================================
 # 01_download_gse115978.R
 #
-# Baixa os arquivos supplementary do GEO GSE115978 (Sade-Feldman et al.,
-# Cell 2018) para data/raw/.
+# Baixa os arquivos supplementary do GEO GSE115978 (Jerby-Arnon et al.,
+# Cell 2018, PMID 30388455) para data/raw/.
 #
-# Dataset: scRNA-seq (Smart-seq2) de melanoma metastático, pré/pós
-# checkpoint inhibitor, com anotação de resposta clínica (R/NR) por célula.
+# Dataset: scRNA-seq (Smart-seq2) de 31 tumores de melanoma, combinando as
+# coortes Tirosh (GSE72056) e New. Usado para identificar um programa de
+# resistência em células malignas associado a exclusão de células T.
 # =============================================================================
 
 library(GEOquery)
 
 set.seed(42)
 
-raw_dir <- here::here("01-melanoma-single-cell-biomarkers", "data", "raw")
+raw_dir <- here::here("02-melanoma-drug-resistance", "data", "raw")
 dir.create(raw_dir, recursive = TRUE, showWarnings = FALSE)
 
 geo_acc <- "GSE115978"

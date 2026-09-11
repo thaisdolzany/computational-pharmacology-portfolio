@@ -2,8 +2,8 @@
 # 04_clustering_annotation.R
 #
 # Clustering (Louvain via Seurat), UMAP, e validação cruzada com as
-# anotações de tipo celular publicadas pelos autores (coluna cell.types
-# em GSE115978_cell.annotations.csv).
+# anotações de tipo celular publicadas (coluna cell.types em
+# GSE115978_cell.annotations.csv).
 # =============================================================================
 
 library(Seurat)
@@ -12,8 +12,8 @@ library(ggplot2)
 
 set.seed(42)
 
-proc_dir <- here::here("01-melanoma-single-cell-biomarkers", "data", "processed")
-fig_dir  <- here::here("01-melanoma-single-cell-biomarkers", "figures")
+proc_dir <- here::here("02-melanoma-drug-resistance", "data", "processed")
+fig_dir  <- here::here("02-melanoma-drug-resistance", "figures")
 
 seu <- readRDS(file.path(proc_dir, "seurat_preprocessed.rds"))
 
@@ -47,9 +47,15 @@ if ("cell.types" %in% colnames(seu@meta.data)) {
 }
 
 if ("treatment.group" %in% colnames(seu@meta.data)) {
-  p_umap_response <- DimPlot(seu, reduction = "umap", group.by = "treatment.group") +
-    labs(title = "UMAP — grupo de resposta clínica (R/NR)")
-  ggsave(file.path(fig_dir, "umap_response.png"), p_umap_response, width = 7, height = 6)
+  p_umap_treatment <- DimPlot(seu, reduction = "umap", group.by = "treatment.group") +
+    labs(title = "UMAP — timing de tratamento (pré/pós)")
+  ggsave(file.path(fig_dir, "umap_treatment_group.png"), p_umap_treatment, width = 7, height = 6)
+}
+
+if ("Cohort" %in% colnames(seu@meta.data)) {
+  p_umap_cohort <- DimPlot(seu, reduction = "umap", group.by = "Cohort") +
+    labs(title = "UMAP — coorte de origem (Tirosh / New)")
+  ggsave(file.path(fig_dir, "umap_cohort.png"), p_umap_cohort, width = 7, height = 6)
 }
 
 # -----------------------------------------------------------------------------

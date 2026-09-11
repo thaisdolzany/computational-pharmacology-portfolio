@@ -3,10 +3,9 @@
 #
 # Controle de qualidade das células antes da criação do objeto Seurat.
 #
-# Nota: GSE115978 é Smart-seq2 (full-length), não 10x/UMI. Não há
-# métricas de "% de dubletos por barcode" no sentido 10x; QC aqui é
+# Nota: GSE115978 é Smart-seq2 (full-length), não 10x/UMI. QC aqui é
 # baseado em número de genes detectados, contagem total e % mitocondrial
-# por célula, seguindo os critérios usados no paper original.
+# por célula.
 # =============================================================================
 
 library(dplyr)
@@ -16,9 +15,9 @@ library(ggplot2)
 
 set.seed(42)
 
-raw_dir  <- here::here("01-melanoma-single-cell-biomarkers", "data", "raw")
-proc_dir <- here::here("01-melanoma-single-cell-biomarkers", "data", "processed")
-fig_dir  <- here::here("01-melanoma-single-cell-biomarkers", "figures")
+raw_dir  <- here::here("02-melanoma-drug-resistance", "data", "raw")
+proc_dir <- here::here("02-melanoma-drug-resistance", "data", "processed")
+fig_dir  <- here::here("02-melanoma-drug-resistance", "figures")
 dir.create(proc_dir, recursive = TRUE, showWarnings = FALSE)
 dir.create(fig_dir, recursive = TRUE, showWarnings = FALSE)
 
