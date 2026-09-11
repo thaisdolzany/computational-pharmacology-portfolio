@@ -59,15 +59,49 @@ accessions neste projeto — documentando aqui para não se repetir.
 
 ## 5. Results
 
-*(a preencher após execução da análise)*
+- **Clustering:** 29 clusters não supervisionados (resolução 0.8) sobre
+  7.186 células — granularidade bem mais fina que as ~7-8 categorias de
+  `cell.types` publicadas (ver `cluster_vs_celltype_crosstab.csv`);
+  resolução mais baixa (~0.4-0.5) pode aproximar melhor dos tipos
+  celulares publicados, não testado nesta rodada.
+- **DE em células malignas, post.treatment vs treatment.naive**
+  (`de_malignant_post_vs_naive.csv`): entre os genes mais significativos,
+  **MIA** (avg log2FC = -3.65, p_adj = 2.1e-142) e **EMP1** (avg log2FC =
+  -4.58, p_adj = 9.6e-140) caem acentuadamente pós-tratamento; **SERPINF1**
+  (avg log2FC = +2.76) e **PFN1** (avg log2FC = +1.47) sobem.
+- **Score de resistência x fração de células T por amostra**
+  (`resistance_score_vs_tcell_fraction.csv`): correlação de Spearman
+  rho = -0.147, p = 0.50 (não significativa) — direção consistente com a
+  hipótese (score mais alto → menos infiltração de T), mas sem poder
+  estatístico suficiente com n = 31 amostras.
 
 ## 6. Interpretation
 
-*(a preencher)*
+A queda de **MIA** e **EMP1** — ambos associados a diferenciação
+melanocítica — junto com o aumento de **SERPINF1** é consistente com um
+fenótipo de **desdiferenciação** (programa MITF-low/AXL-high já descrito
+na literatura de resistência em melanoma) emergindo pós-tratamento nas
+células malignas deste dataset. Isso está alinhado com a hipótese central
+do paper original (Jerby-Arnon et al.) de um programa maligno intrínseco
+ligado a evasão imune, embora aqui a análise seja simplificada (DE por
+timing de biópsia, não o score de programa resistente completo do paper).
+
+A correlação não significativa entre o score de resistência e a fração de
+células T por amostra não permite concluir associação com exclusão imune
+neste recorte dos dados — mais provável limitação de poder estatístico
+(n=31) do que ausência real do efeito, já que a direção do efeito bate
+com a hipótese.
 
 ## 7. Decision
 
-*(a preencher)*
+Os genes candidatos (MIA, EMP1, SERPINF1, PFN1, entre outros) são
+hipóteses razoáveis para priorizar em validação funcional (ex.: silenciar
+MIA/EMP1 em linhagem de melanoma e avaliar reconhecimento por células T
+in vitro) antes de qualquer decisão de desenvolvimento. Não há evidência
+aqui forte o bastante para decisão de investimento em alvo — o achado
+principal desta rodada é a viabilidade do pipeline e um sinal
+qualitativamente coerente com a literatura, não uma confirmação
+estatística robusta.
 
 ## 8. Limitations
 
