@@ -3,7 +3,8 @@
 .Rproj.user/
 .Rdata
 .Ruserdata
-*.Rproj
+# Note: the top-level .Rproj IS tracked (shared project file); only
+# .Rproj.user/ (local IDE state) is ignored.
 
 # renv
 renv/library/
