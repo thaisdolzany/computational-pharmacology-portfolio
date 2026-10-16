@@ -1,0 +1,324 @@
+city,count
+São Paulo,1446
+Porto Alegre,1091
+Rio de Janeiro,732
+Barretos,533
+Curitiba,380
+Salvador,369
+Belo Horizonte,330
+Ijuí,281
+São José do Rio Preto,267
+Fortaleza,263
+Natal,254
+Santo André,250
+Jaú,203
+Goiânia,188
+Florianópolis,170
+Ribeirão Preto,154
+Brasília,142
+Campinas,122
+Itajaí,119
+Passo Fundo,114
+Recife,112
+Vitória,104
+Londrina,85
+Joinville,60
+Caxias do Sul,59
+Sorocaba,57
+Lajeado,50
+Blumenau,45
+Cachoeiro de Itapemirim,41
+Pelotas,36
+Teresina,36
+Santa Cruz do Sul,32
+Belém,30
+Santa Maria,26
+Lages,25
+Uberlândia,23
+Botucatu,22
+Ipatinga,21
+Taubaté,21
+Bento Gonçalves,20
+São Caetano do Sul,19
+Porto Velho,18
+Niterói,17
+Piracicaba,14
+Sao Jose Rio Preto,14
+São Luís,14
+Cascavel,12
+"Salvador, Bahia",11
+São José dos Campos,11
+Mogi das Cruzes,10
+Novo Hamburgo,10
+Pouso Alegre,9
+Rio Grande,9
+Juiz de Fora,8
+Nova Lima,8
+Santos,8
+Bauru,7
+Campo Grande,7
+Pôrto Alegre,7
+São Bernardo do Campo,7
+Uberaba,7
+Alfenas,6
+Bahia,6
+Chapecó,6
+João Pessoa,6
+Rio de Janiero,6
+Santa Catarina,6
+São Jose Do Rio Preto,6
+Taguatinga,6
+Três Lagoas,6
+Barretos/SP,5
+Boa Vista,5
+Bragança Paulista,5
+Cerqueira César,5
+Curitba,5
+Goiania - GO,5
+Lago Sul,5
+Manaus,5
+Morumbi,5
+Porto Alegre - RS,5
+Volta Redonda,5
+Ceará,4
+Divinópolis,4
+Maceió,4
+Porto Alegre/RS,4
+Presidente Prudente,4
+SP,4
+Santo Cristo,4
+SÃ£o Paulo,4
+São Carlos,4
+São Paulo - SP,4
+Barretos - SP,3
+Bela Vista,3
+Botafogo,3
+Canoas,3
+Centro,3
+Criciúma,3
+Cuiabá,3
+CuritibaPR,3
+Jau/SP,3
+Liberdade,3
+Maringá,3
+Minas Gerais,3
+Porto AlegreRS,3
+Rio de Janerio,3
+Salvador - BA,3
+Salvador - Ba,3
+Salvador/BA,3
+Santa Cecília,3
+Sao Paulo - SP,3
+Sao Paulo/SP,3
+São José do Vale do Rio Preto,3
+Araçatuba,2
+Barueri,2
+Bequimão,2
+Betim,2
+Brasilia,2
+"Brasilia, Distrito Federal",2
+Cachoeira de Itapemirim,2
+Campina Grande do Sul,2
+Campo Largo,2
+Centro-Porto Alegre,2
+Cuiaba,2
+Curitiba-PR,2
+Goiás,2
+Higienópolis,2
+"Itacorubi, Florianopolis",2
+ItajaÃ-,2
+ItajaĂ-,2
+Itaquera,2
+Jales,2
+Jardim Paulista,2
+Jundiaí,2
+Lajeados,2
+Londrina - PR,2
+Marília,2
+Muriaé,2
+Natal/RN,2
+Paraná,2
+Paranã,2
+Passos,2
+Petrópolis,2
+Porte Alegre,2
+Porto Alegre RS,2
+"Porto Alegre, RS",2
+"Porto Alegre, Rs",2
+Porto Alegre/rs,2
+Porto Algre,2
+Rio Preto,2
+Rio de Janeiro - RJ,2
+Salvador Bahia,2
+Santa Lúcia,2
+Santo Andre-SP,2
+Sao Jose de Rio Preto,2
+Sao Paulo-SP,2
+So Paulo,2
+São José,2
+Varginha,2
+Vila Mariana,2
+Vila Olímpia,2
+Alagoas,1
+Aldeota,1
+Anápolis,1
+Aparecida de Goiânia,1
+Aracaiu-SE,1
+Asa Sul,1
+Avaré,1
+Badajós,1
+Bairro Bom Fim,1
+Bairro Nazare - Salvador,1
+Barra da Tijuca,1
+Barretos / SP,1
+Barretos-SP,1
+Barretos/sp,1
+Barro Preto,1
+Belo Horizonte - MG,1
+Belo Horizonte - Mg,1
+"Belo Horizonte, Minas Gerais",1
+"Belo Horizonte,Minas Gerais",1
+Belo Horizonte-MG,1
+"Botucatu, Sao Paulo",1
+Brasília - DF,1
+Brasílía,1
+Brazil,1
+Brás,1
+CEP - Campinas,1
+Cachoeira Do Itapemirim-ES,1
+Cachoeiro de Itapemirim - ES,1
+Caixas Do Sul,1
+Campianas,1
+Campinas SP,1
+Campinas/ SP,1
+Centro Passo Fundo,1
+Centro Santa Maria,1
+Centro-porto Alegre,1
+Cep Sao Paulo-SP,1
+Cerqueira Cesar - Sao Paulo/SP,1
+Cerqueria Cesar,1
+Copacabana,1
+Cuiab,1
+Cuiaba - Mount,1
+Curicica,1
+"Curitiba, PR",1
+"Curitiba, Parana",1
+Curitiba- PR,1
+Curitiba/PR,1
+Divinopolis,1
+Dois Lajeados,1
+Feira de Santana,1
+Florianopolis - SC,1
+Fortaleza - CE,1
+Fortaleza Ceara,1
+Fortaleza/CE,1
+Fortaleza/ce,1
+Giana,1
+Goiamia,1
+Goiania Goias,1
+Goiania/GO,1
+GoiÃ¢nia - GO,1
+Goiânia - GO,1
+Goiânia/Go,1
+Guimarães,1
+Gávea,1
+Higienopolis,1
+Horizonte,1
+Ijuí/ RS,1
+Itabira,1
+Itabuna,1
+ItajaÃ,1
+Itapevi,1
+Jardim Blumenau,1
+Jau -SP,1
+Jaù,1
+Jd. Petropolis-Londrina,1
+"Juiz de Fora, Minas Gerais",1
+Lajeado - Rs,1
+Ljui,1
+"Londrina, Parana",1
+Mannheim,1
+Minas Gerai,1
+"Mogi Das Cruzes, Sao Paulo",1
+Montreal,1
+Mossoró,1
+"Natal, Rio Grande Do Norte",1
+Nova Andradina,1
+Ondina,1
+Ondina-Salvdor,1
+PORTUGALto Alegre,1
+Pacaembu,1
+Paraana,1
+Pará,1
+Pasos Fundo,1
+Passo Fundo - RS,1
+"Passo Fundo, RS",1
+Pelotas - RS,1
+Pelotas Rio Grande Do Sul,1
+Pernambuco,1
+Piracicaba - Sp,1
+Ponta Grossa,1
+Port Alegre,1
+Portalegre,1
+Porto Alegre - Rs,1
+Porto Alegre Rio Grande Do Sul,1
+Porto Alegre- Rs,1
+Porto Alegre-Rs,1
+Porto Alegree,1
+Porto Alegrelegre,1
+Porto Alegrev,1
+Porto VelhoRondOnia,1
+Recife Pernambuco,1
+Ribeirao - SP,1
+Ribeirao Preto - SP,1
+Ribeirao Preto - Sp,1
+Ribeirão Preto - SP,1
+Ribeirão Preto/Sp,1
+Riberao Preto-SP,1
+Riberão Preto,1
+Rio Grande de Sul,1
+Rio de Janeiro Rj,1
+Rio de Janeriro,1
+Rio de Janiro,1
+Rua Dona Siilveria,1
+S?O Paulo,1
+S?o Paulo,1
+SAO JOSE RIO Preto,1
+SAO Paulo - SP,1
+SAo JosE Do Rio PretoSP,1
+SJRP,1
+San Jose Rio Preto,1
+"San Paulo, Sp",1
+Santo Andre - SP,1
+Santro Andre,1
+Sao Jose Do Rio Preto - SP,1
+Sao Jose Rio,1
+Sao Paulo - Sp,1
+Sao Paulo- SP,1
+Sao Paulp,1
+Serra,1
+Sheffield,1
+Sorocaba - Sp,1
+Sorocaba Sao Paulo,1
+Ssanta Cruz Do Sul,1
+SÃ£o JosÃ© Do Rio Preto,1
+Sâo Paulo,1
+São Cristóvão,1
+São José Do Rio Preto - SP,1
+São José Do Rio Prêto,1
+São Marcos,1
+São Paulo- SP,1
+São Paulol,1
+Săo Paulo,1
+Teresópolis,1
+Teófilo,1
+Timbó,1
+Toledo,1
+Valinhos,1
+Valência,1
+Vila Assis,1
+Vila Buarque,1
+Vitoria/ES,1
+Vitória da Conquista,1
+Volta Redonda - RJ,1
+Votuporanga,1

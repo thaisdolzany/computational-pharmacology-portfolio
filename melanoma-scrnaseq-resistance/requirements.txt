@@ -1,0 +1,13 @@
+# R 4.5.2. Versions used for the full rerun on 2026-10-16 (see results/sessionInfo_06.txt)
+Seurat==5.5.1
+SeuratObject==5.4.0
+DESeq2==1.50.2
+Matrix==1.7.4
+dplyr==1.2.1
+readr==2.2.0
+ggplot2==4.0.3
+tibble==3.3.1
+tidyr==1.3.2
+here==1.0.2
+GEOquery==2.78.0
+R.utils==2.13.0
