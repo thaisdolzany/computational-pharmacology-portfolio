@@ -4,12 +4,14 @@
 Run from the project folder:  python analysis/02_analyze.py
 """
 
+import json
 import re
 import unicodedata
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 import pandas as pd
+import requests
 
 TRIALS = Path("data/processed/trials.csv")
 SITES = Path("data/processed/sites_brazil.csv")
@@ -96,7 +98,75 @@ CITY_TO_STATE = {
     "goiania": "Goias", "brasilia": "Distrito Federal", "vitoria": "Espirito Santo",
     "cachoeiro de itapemirim": "Espirito Santo", "recife": "Pernambuco",
     "teresina": "Piaui", "belem": "Para",
+    # administrative regions of Brasilia, written as if they were cities
+    "lago sul": "Distrito Federal", "asa sul": "Distrito Federal", "asa norte": "Distrito Federal",
+    "taguatinga": "Distrito Federal",
+    # spelling variants seen in the registry
+    "sao jose rio preto": "Sao Paulo", "porte alegre": "Rio Grande do Sul",
+    "porto algre": "Rio Grande do Sul", "rio de janeriro": "Rio de Janeiro",
 }
+
+
+# State capitals, fixed by hand: some share a name with a small town elsewhere
+# (Campo Grande exists in MS and RN), so the unique-name rule below would skip them.
+CAPITALS = {
+    "rio branco": "AC", "maceio": "AL", "macapa": "AP", "manaus": "AM", "salvador": "BA",
+    "fortaleza": "CE", "brasilia": "DF", "vitoria": "ES", "goiania": "GO", "sao luis": "MA",
+    "cuiaba": "MT", "campo grande": "MS", "belo horizonte": "MG", "belem": "PA",
+    "joao pessoa": "PB", "curitiba": "PR", "recife": "PE", "teresina": "PI",
+    "rio de janeiro": "RJ", "natal": "RN", "porto alegre": "RS", "porto velho": "RO",
+    "boa vista": "RR", "florianopolis": "SC", "sao paulo": "SP", "aracaju": "SE", "palmas": "TO",
+}
+MUNICIPALITIES_URL = "https://servicodados.ibge.gov.br/api/v1/localidades/municipios"
+MUNICIPALITIES_CACHE = Path("data/raw/ibge_municipios.json")
+_MUNI = None
+
+
+def municipality_index():
+    """(unique name -> UF, set of (name, UF)) from the IBGE list of 5,570 municipalities."""
+    global _MUNI
+    if _MUNI is None:
+        if not MUNICIPALITIES_CACHE.exists():
+            MUNICIPALITIES_CACHE.parent.mkdir(parents=True, exist_ok=True)
+            r = requests.get(MUNICIPALITIES_URL, timeout=60)
+            r.raise_for_status()
+            MUNICIPALITIES_CACHE.write_bytes(r.content)
+        pairs = set()
+        for m in json.loads(MUNICIPALITIES_CACHE.read_text(encoding="utf-8")):
+            uf = m["regiao-imediata"]["regiao-intermediaria"]["UF"]["sigla"]
+            pairs.add((plain(m["nome"]).lower(), uf))
+        by_name = {}
+        for name, uf in pairs:
+            by_name.setdefault(name, set()).add(uf)
+        unique = {n: next(iter(u)) for n, u in by_name.items() if len(u) == 1}
+        _MUNI = (unique, pairs)
+    return _MUNI
+
+
+def city_to_state(text):
+    """State name from a city-like string, or None. Only unambiguous matches are accepted."""
+    v = re.sub(r"\s+", " ", plain(text).lower()).strip(" ,.-/")
+    if not v:
+        return None
+    if v in NAME_TO_STATE:                       # the field holds a state name
+        return NAME_TO_STATE[v]
+    for name in sorted(NAME_TO_STATE, key=len, reverse=True):   # "Salvador, Bahia", "Porto VelhoRondonia"
+        if v.endswith(name) and len(v) > len(name):
+            return NAME_TO_STATE[name]
+    unique, pairs = municipality_index()
+    for uf in STATE_NAMES:                       # "Porto Alegre - RS", "Natal/RN", "CuritibaPR"
+        code = uf.lower()
+        if v.endswith(code) and len(v) > len(code):
+            city = v[: -len(code)].strip(" ,.-/")
+            if (city, uf) in pairs or CAPITALS.get(city) == uf:
+                return STATE_NAMES[uf]
+    if v in CAPITALS:
+        return STATE_NAMES[CAPITALS[v]]
+    if v in CITY_TO_STATE:
+        return CITY_TO_STATE[v]
+    if v in unique:
+        return STATE_NAMES[unique[v]]
+    return None
 
 
 def clean_state(state, city=None):
@@ -112,8 +182,11 @@ def clean_state(state, city=None):
         for name, pattern in STATE_PATTERNS:
             if re.search(pattern, low):
                 return name
+        found = city_to_state(state)             # a city written in the state field
+        if found:
+            return found
     if city is not None and not pd.isna(city):
-        found = CITY_TO_STATE.get(plain(city).lower())
+        found = city_to_state(city)
         if found:
             return found
     return "Not reported"
