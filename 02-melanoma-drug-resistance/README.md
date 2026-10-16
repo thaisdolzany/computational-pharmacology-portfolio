@@ -56,6 +56,12 @@ accessions neste projeto — documentando aqui para não se repetir.
    tratamento; (b) score de assinatura por amostra correlacionado com a
    fração de células T na mesma amostra (proxy de exclusão imune)
    (`05_resistance_program_analysis.R`)
+6. **DE pseudobulk (revisão estatística)** — o DE do passo 5a compara células,
+   mas o tratamento é uma característica do tumor; as células não são réplicas
+   independentes. Este passo soma as contagens brutas das células malignas por
+   amostra (amostras com ≥ 10 células malignas: 12 treatment.naive, 8
+   post.treatment) e roda DESeq2 com desenho `~ Cohort + treatment.group`
+   (`06_pseudobulk_de.R`)
 
 ## 5. Results
 
@@ -64,11 +70,19 @@ accessions neste projeto — documentando aqui para não se repetir.
   `cell.types` publicadas (ver `cluster_vs_celltype_crosstab.csv`);
   resolução mais baixa (~0.4-0.5) pode aproximar melhor dos tipos
   celulares publicados, não testado nesta rodada.
-- **DE em células malignas, post.treatment vs treatment.naive**
-  (`de_malignant_post_vs_naive.csv`): entre os genes mais significativos,
-  **MIA** (avg log2FC = -3.65, p_adj = 2.1e-142) e **EMP1** (avg log2FC =
-  -4.58, p_adj = 9.6e-140) caem acentuadamente pós-tratamento; **SERPINF1**
-  (avg log2FC = +2.76) e **PFN1** (avg log2FC = +1.47) sobem.
+- **DE em células malignas, post.treatment vs treatment.naive, nível de
+  célula** (`de_malignant_post_vs_naive.csv`, script 05): **MIA** (avg log2FC
+  = -3.65, p_adj = 4.7e-138) e **EMP1** (avg log2FC = -4.58, p_adj = 2.2e-135)
+  caem pós-tratamento; **SERPINF1** (avg log2FC = +2.76) e **PFN1** (avg
+  log2FC = +1.47) sobem. 5.384 genes passam p_adj < 0.05.
+- **Mesmo contraste no nível de amostra (pseudobulk, script 06)**
+  (`results/pseudobulk_de_malignant_post_vs_naive.csv`): apenas **117 genes**
+  passam padj < 0.05, e só 61 dos 5.384 achados célula a célula (1,1%) se
+  confirmam. Dos quatro genes destacados acima, **só EMP1 se mantém**
+  (log2FC = -4.51, padj = 2.9e-06). MIA (padj = 0.11), SERPINF1 (padj = 0.32)
+  e PFN1 (padj = 0.67) mantêm a direção mas não sobrevivem à correção com 8 vs
+  12 tumores (`results/pseudobulk_vs_cell_highlight_genes.csv`,
+  `figures/pseudobulk_highlight_genes.png`).
 - **Score de resistência x fração de células T por amostra**
   (`resistance_score_vs_tcell_fraction.csv`): correlação de Spearman
   rho = -0.147, p = 0.50 (não significativa) — direção consistente com a
@@ -77,11 +91,15 @@ accessions neste projeto — documentando aqui para não se repetir.
 
 ## 6. Interpretation
 
-A queda de **MIA** e **EMP1** — ambos associados a diferenciação
-melanocítica — junto com o aumento de **SERPINF1** é consistente com um
-fenótipo de **desdiferenciação** (programa MITF-low/AXL-high já descrito
-na literatura de resistência em melanoma) emergindo pós-tratamento nas
-células malignas deste dataset. Isso está alinhado com a hipótese central
+Os p-valores da análise célula a célula (script 05) estão inflados por
+pseudo-replicação: tratam milhares de células de poucos tumores como
+observações independentes. A análise pseudobulk (script 06) é a que deve ser
+usada para inferência. Nela, a queda de **EMP1** pós-tratamento é robusta; a
+queda de **MIA** e o aumento de **SERPINF1** aparecem como tendência na mesma
+direção, mas sem significância após correção. O padrão é compatível com
+desdiferenciação (programa MITF-low/AXL-high descrito na literatura de
+resistência em melanoma), mas com estes dados a evidência sustenta EMP1, não o
+programa completo. Isso está alinhado com a hipótese central
 do paper original (Jerby-Arnon et al.) de um programa maligno intrínseco
 ligado a evasão imune, embora aqui a análise seja simplificada (DE por
 timing de biópsia, não o score de programa resistente completo do paper).
@@ -94,8 +112,9 @@ com a hipótese.
 
 ## 7. Decision
 
-Os genes candidatos (MIA, EMP1, SERPINF1, PFN1, entre outros) são
-hipóteses razoáveis para priorizar em validação funcional (ex.: silenciar
+**EMP1** é o candidato mais sólido (sobrevive à análise no nível do tumor);
+MIA e SERPINF1 ficam como hipóteses secundárias, e PFN1 sai da lista. Os
+candidatos são hipóteses razoáveis para priorizar em validação funcional (ex.: silenciar
 MIA/EMP1 em linhagem de melanoma e avaliar reconhecimento por células T
 in vitro) antes de qualquer decisão de desenvolvimento. Não há evidência
 aqui forte o bastante para decisão de investimento em alvo — o achado
@@ -113,6 +132,14 @@ estatística robusta.
   versão inicial
 - N pequeno de tumores (31); correlação amostra-nível entre score de
   malignant program e fração de células T tem poder estatístico limitado
+- O DE célula a célula (script 05) sofre de pseudo-replicação; usar o
+  pseudobulk (script 06) para inferência. Com 8 vs 12 tumores o poder é
+  limitado, e genes com log2FC muito alto no pseudobulk (ex.: MAGEA4) podem
+  refletir poucos tumores com expressão extrema; inspecionar por amostra antes
+  de interpretar
+- O score de resistência do passo 5b foi construído com genes do DE célula a
+  célula; refazer com os genes do pseudobulk antes de interpretar a correlação
+  com a fração de células T
 - Direção causal não estabelecida — score alto de "programa de
   resistência" correlacionado com baixa fração de células T é consistente
   com, mas não prova, exclusão causada pelo programa maligno
@@ -133,6 +160,6 @@ estatística robusta.
 - Seed fixa (`set.seed(42)`) em todos os scripts com componente estocástico
 - Ordem de execução: `analysis/01_download_gse115978.R` →
   `02_qc.R` → `03_seurat_preprocessing.R` → `04_clustering_annotation.R` →
-  `05_resistance_program_analysis.R`
+  `05_resistance_program_analysis.R` → `06_pseudobulk_de.R`
 - Dados brutos/processados não versionados no git; regenerados a partir
   do script 01
