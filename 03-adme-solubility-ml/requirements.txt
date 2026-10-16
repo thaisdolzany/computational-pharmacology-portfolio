@@ -1,0 +1,8 @@
+# Python 3.13.2; versions used for the reported run
+rdkit==2026.09.1
+xgboost==3.4.1
+scikit-learn==1.6.1
+pandas==2.2.3
+numpy==2.5.4
+matplotlib==3.10.3
+requests==2.34.2

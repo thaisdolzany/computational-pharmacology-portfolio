@@ -1,0 +1,18 @@
+{
+  "raw_records": 9982,
+  "invalid_smiles": 2,
+  "inorganic_or_metal": 519,
+  "changed_by_standardisation": 797,
+  "parent_duplicate_groups": 166,
+  "conflicting_groups_dropped": 82,
+  "final_molecules": 9145,
+  "rdkit_descriptors": 217,
+  "descriptor_cells_missing": 84,
+  "acyclic_molecules": 2326,
+  "unique_scaffolds": 1854,
+  "noise_floor": {
+    "compounds_with_multiple_sources": 2236,
+    "median_between_source_sd": 0.132,
+    "rms_between_source_sd": 0.516
+  }
+}

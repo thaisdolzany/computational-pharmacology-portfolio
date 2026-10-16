@@ -1,0 +1,5 @@
+split,set,n,logS_median,logS_max,MW_median,MW_max,cLogP_median,cLogP_max
+random,train,7316,-2.63,1.6,226.45,1658.4,2.18,28.8
+random,test,1829,-2.69,2.1,235.33,2285.7,2.22,26.2
+scaffold,train,7316,-2.47,2.1,212.25,1237.3,2.07,28.8
+scaffold,test,1829,-3.29,1.4,301.39,2285.7,2.78,25.8
