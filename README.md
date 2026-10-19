@@ -16,7 +16,9 @@ anything.
 
 Related repositories: [scanpy-lowmem](https://github.com/thaisdolzany/scanpy-lowmem) (single-cell
 analysis on a 16 GB laptop), [omics-fetch](https://github.com/thaisdolzany/omics-fetch)
-(GEO, cBioPortal and TCGA downloads) and the pre-registered
+(GEO, cBioPortal and TCGA downloads), [ngs-germline-panel-nf](https://github.com/thaisdolzany/ngs-germline-panel-nf)
+(Nextflow pipeline for germline variant calling in gene panels, benchmarked against a
+truth set) and the pre-registered
 [BRIDGE-TF protocol](https://github.com/thaisdolzany/BRIDGE-TF-protocol).
 
 Author: Thaís Dolzany, PhD · [thaisdolzany.github.io](https://thaisdolzany.github.io) ·
