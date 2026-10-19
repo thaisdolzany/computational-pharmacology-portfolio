@@ -39,7 +39,9 @@ count fingerprints (radius 2, 2,048 bits) and the four ESOL inputs.
 Splits (80/20, made before any preprocessing). In the random split, 316 of the 575 test
 scaffolds also occur in training. In the scaffold split, Bemis-Murcko groups go to training
 largest first ([Bemis and Murcko 1996](https://doi.org/10.1021/jm9602928)), and none of the
-1,542 test scaffolds occur in training.
+1,542 test scaffolds occur in training. The 2,326 acyclic molecules share an empty scaffold;
+as one of the largest groups it goes entirely to training, so the scaffold test set holds only
+molecules with at least one ring.
 
 Models (`analysis/03_train_evaluate.py`): the training mean as a floor; the linear ESOL form
 of [Delaney 2004](https://doi.org/10.1021/ci034243x) (cLogP, MW, rotatable bonds, aromatic
@@ -70,7 +72,8 @@ bootstrap CIs. The dashed line is the RMS between-source SD (0.52).*
 Moving from the random to the scaffold split raises the XGBoost RMSE from 0.85 to 1.23 and
 lowers R² from 0.88 to 0.69, with non-overlapping CIs. Within ±1 log unit of the measured
 value fall 83% of random-split predictions and 66% of scaffold-split predictions. Part of
-the drop comes from the test molecules themselves: in the scaffold split they are larger,
+the drop comes from the test molecules themselves: in the scaffold split they all contain
+rings and are larger,
 more lipophilic and less soluble than the training set (median MW 301 vs 212, cLogP 2.78 vs
 2.07, logS −3.29 vs −2.47; `results/split_shift.csv`).
 

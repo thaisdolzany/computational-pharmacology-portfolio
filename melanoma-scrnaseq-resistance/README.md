@@ -89,6 +89,11 @@ secondary hypotheses. Nothing here is strong enough to prioritise a target.
 
 - Biopsy timing is a proxy. There are no response labels, and each sample is a separate
   tumour, so differences between patients are mixed with the effect of treatment.
+- The T-cell fraction is the share of T cells among the cells sequenced, not among the
+  cells in the tumour. Cells were sorted into CD45+ and CD45− plates before sequencing
+  (Tirosh et al. 2016; Jerby-Arnon et al. 2018), so the fraction partly reflects how many
+  cells of each compartment were profiled. Infiltration is better measured in bulk data by
+  deconvolution or by immunohistochemistry.
 - 20 tumours enter the pseudobulk test, so power is low and some real effects will be missed.
 - Genes with very large pseudobulk fold changes (for example MAGEA4, log2FC 13.5) can be
   driven by one or two tumours with extreme expression; check them per sample before use.
@@ -99,7 +104,8 @@ secondary hypotheses. Nothing here is strong enough to prioritise a target.
 ## Next steps
 
 - Rebuild the signature score from the pseudobulk genes and test it again.
-- Check EMP1, MIA and SERPINF1 in an independent bulk RNA-seq cohort with response data.
+- Check EMP1, MIA and SERPINF1 in an independent bulk RNA-seq cohort with response data,
+  and test the signature against deconvolved T-cell infiltration there.
 
 ## How to run
 
